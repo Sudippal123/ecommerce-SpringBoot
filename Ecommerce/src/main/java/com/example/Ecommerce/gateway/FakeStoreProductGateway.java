@@ -7,6 +7,7 @@ import com.example.Ecommerce.dto.gatewayDTO.Response.FakeStoreCreateProductRespo
 import com.example.Ecommerce.dto.gatewayDTO.Response.FakeStoreProductByIdResponse;
 import com.example.Ecommerce.dto.gatewayDTO.Response.FakeStoreProductsByCategoryResponse;
 import com.example.Ecommerce.gateway.api.FakeStoreProductApi;
+import com.example.Ecommerce.mapper.ProductMapper;
 import org.springframework.stereotype.Component;
 import retrofit2.Response;
 
@@ -24,36 +25,21 @@ public class FakeStoreProductGateway implements IProductGateway {
     @Override
     public List<ProductDTO> getProductsByCategory(String type) throws IOException {
         FakeStoreProductsByCategoryResponse response = fakeStoreProductApi.getProductsByCategory(type).execute().body();
-        return response.getProducts().stream()
-                .map( product -> ProductDTO.builder()
-                        .price(product.getPrice())
-                        .title(product.getTitle())
-                        .brand(product.getBrand())
-                        .model(product.getModel()).build()
-                ).toList();
+        return ProductMapper.toProductDTOList(response);
     }
 
     @Override
     public ProductDTO getProductById(Long Id) throws IOException {
         FakeStoreProductByIdResponse response = fakeStoreProductApi.getProductById(Id).execute().body();
-
-        return ProductDTO.builder()
-                .title(response.getProduct().getTitle())
-                .price(response.getProduct().getPrice())
-                .brand(response.getProduct().getBrand())
-                .model(response.getProduct().getModel()).build();
+        return ProductMapper.toProductDTO(response);
     }
 
     @Override
     public CreateProductResponse createProduct(CreateProductRequest productRequest) throws IOException {
 
         Response<FakeStoreCreateProductResponse> response = fakeStoreProductApi.createProduct(productRequest).execute();
-
         if(response.isSuccessful() ){
-            return CreateProductResponse.builder()
-                    .product(response.body().getProduct())
-                    .status(response.body().getStatus())
-                    .message(response.body().getMessage()).build();
+            return ProductMapper.toCreateProductResponse(response.body());
         }
         else {
             System.out.println("API Error: " + response.errorBody().string());

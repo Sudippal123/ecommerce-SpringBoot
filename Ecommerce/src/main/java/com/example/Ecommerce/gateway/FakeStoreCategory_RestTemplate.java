@@ -2,13 +2,12 @@ package com.example.Ecommerce.gateway;
 
 import com.example.Ecommerce.dto.controllerDTO.Response.CategoryDTO;
 import com.example.Ecommerce.dto.gatewayDTO.Response.FakeStoreCategoryResponse;
+import com.example.Ecommerce.mapper.CategoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 
 import java.io.IOException;
@@ -31,9 +30,6 @@ public class FakeStoreCategory_RestTemplate implements ICategoryGateway{
         if(response.getBody() == null){
             throw new IOException("Response is empty");
         }
-        return response.getBody().getCategories().stream()
-                .map( category -> CategoryDTO.builder()
-                        .name(category)
-                        .build()).toList();
+        return CategoryMapper.toCategoryDTOList(response.getBody());
     }
 }
