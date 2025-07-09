@@ -1,6 +1,6 @@
 package com.example.Ecommerce.dto.controllerDTO.Response;
 
-import com.example.Ecommerce.dto.Product;
+import com.example.Ecommerce.dto.ProductDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CreateProductResponse{
-	private Product product;
+	private ProductDTO product;
 	private String message;
 	private String status;
 }

@@ -1,13 +1,12 @@
-package com.example.Ecommerce.dto.controllerDTO.Resquest;
+package com.example.Ecommerce.dto;
 
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 @Builder
-public class CreateProductRequest {
+public class ProductDTO {
+	private Long id ;
 	private String title ;
 	private String image ;
 	private double price ;
@@ -15,7 +14,7 @@ public class CreateProductRequest {
 	private String brand ;
 	private String model ;
 	private String color ;
-	private long category_id ;
+	private Long category_id ;
 	private boolean popular ;
 	private int discount ;
 }
