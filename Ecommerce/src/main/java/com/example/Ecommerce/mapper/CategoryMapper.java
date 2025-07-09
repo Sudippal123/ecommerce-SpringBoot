@@ -1,18 +1,21 @@
 package com.example.Ecommerce.mapper;
 
-import com.example.Ecommerce.dto.controllerDTO.Response.CategoryDTO;
-import com.example.Ecommerce.dto.gatewayDTO.Response.FakeStoreCategoryResponse;
+import com.example.Ecommerce.dto.controllerDTO.Response.CategoryResponseDTO;
+import com.example.Ecommerce.dto.controllerDTO.Resquest.CategoryRequestDTO;
+import com.example.Ecommerce.entity.Category;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class CategoryMapper {
-    public static List<CategoryDTO> toCategoryDTOList(FakeStoreCategoryResponse fakeStoreCategoryResponse){
-        return fakeStoreCategoryResponse.getCategories().stream()
-                .map(e ->CategoryDTO.builder()
-                        .name(e)
-                        .build()
-                ).toList();
+
+    public static CategoryResponseDTO toCategoryDTO(Category category){
+        return CategoryResponseDTO.builder().id(category.getId()).name(category.getName()).build();
     }
+    public static Category toCategoryEntity(CategoryRequestDTO requestDTO){
+        return Category.builder().name(requestDTO.getName()).build();
+    }
+    public static Category toCategoryEntity(CategoryResponseDTO requestDTO){
+        return Category.builder().name(requestDTO.getName()).build();
+    }
+
 }

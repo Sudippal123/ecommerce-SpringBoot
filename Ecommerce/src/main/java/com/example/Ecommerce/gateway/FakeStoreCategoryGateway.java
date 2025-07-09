@@ -1,9 +1,8 @@
 package com.example.Ecommerce.gateway;
 
-import com.example.Ecommerce.dto.controllerDTO.Response.CategoryDTO;
+import com.example.Ecommerce.dto.controllerDTO.Response.CategoryResponseDTO;
 import com.example.Ecommerce.dto.gatewayDTO.Response.FakeStoreCategoryResponse;
 import com.example.Ecommerce.gateway.api.FakeStoreCategoryApi;
-import com.example.Ecommerce.mapper.CategoryMapper;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -18,11 +17,11 @@ public class FakeStoreCategoryGateway implements ICategoryGateway{
     }
 
     @Override
-    public List<CategoryDTO> getAllCategories() throws IOException {
+    public List<CategoryResponseDTO> getAllCategories() throws IOException {
         FakeStoreCategoryResponse response = this.fakeStoreCategoryApi.getAllFakeStoreCategories().execute().body();
         if(response == null){
            throw new IOException("Response is empty!!");
         }
-        return CategoryMapper.toCategoryDTOList(response);
+        return null;
     }
 }

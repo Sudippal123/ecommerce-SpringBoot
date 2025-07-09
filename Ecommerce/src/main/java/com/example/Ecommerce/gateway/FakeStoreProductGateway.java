@@ -25,13 +25,13 @@ public class FakeStoreProductGateway implements IProductGateway {
     @Override
     public List<ProductDTO> getProductsByCategory(String type) throws IOException {
         FakeStoreProductsByCategoryResponse response = fakeStoreProductApi.getProductsByCategory(type).execute().body();
-        return ProductMapper.toProductDTOList(response);
+        return null;
     }
 
     @Override
     public ProductDTO getProductById(Long Id) throws IOException {
         FakeStoreProductByIdResponse response = fakeStoreProductApi.getProductById(Id).execute().body();
-        return ProductMapper.toProductDTO(response);
+        return null;
     }
 
     @Override

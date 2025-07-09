@@ -8,8 +8,14 @@ import lombok.Getter;
 @AllArgsConstructor
 @Builder
 public class ProductDTO {
-    private String title;
-    private double price;
-    private String brand;
-    private String model;
+    private String title ;
+    private String image ;
+    private double price ;
+    private String description ;
+    private String brand ;
+    private String model ;
+    private String color ;
+    private String category ;
+    private boolean popular ;
+    private int discount ;
 }

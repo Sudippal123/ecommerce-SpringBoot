@@ -1,10 +1,10 @@
 package com.example.Ecommerce.gateway;
 
-import com.example.Ecommerce.dto.controllerDTO.Response.CategoryDTO;
+import com.example.Ecommerce.dto.controllerDTO.Response.CategoryResponseDTO;
 
 import java.io.IOException;
 import java.util.List;
 
 public interface ICategoryGateway {
-    List<CategoryDTO> getAllCategories() throws IOException;
+    List<CategoryResponseDTO> getAllCategories() throws IOException;
 }
