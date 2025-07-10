@@ -1,9 +1,11 @@
 package com.example.Ecommerce.services;
 
+import com.example.Ecommerce.dto.CategoryWithProductsDTO;
 import com.example.Ecommerce.dto.controllerDTO.Response.CategoryResponseDTO;
 import com.example.Ecommerce.dto.controllerDTO.Resquest.CategoryRequestDTO;
 import com.example.Ecommerce.entity.Category;
 import com.example.Ecommerce.mapper.CategoryMapper;
+import com.example.Ecommerce.mapper.ProductMapper;
 import com.example.Ecommerce.repository.CategoryRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataAccessException;
@@ -56,6 +58,21 @@ public class CategoryService implements ICategoryService{
         try {
             Category category = categoryRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Category not found with id : "+id));
             return CategoryMapper.toCategoryDTO(category);
+        }
+        catch (DataAccessException dae){
+            throw new RuntimeException("Database error occurred while fetching category by Id",dae);
+        }
+        catch (RuntimeException e) {
+            throw new RuntimeException("Unexpected error occur while fetching for category.",e);
+        }
+    }
+
+    @Override
+    public CategoryWithProductsDTO getCategoryWithProducts(Long id) {
+        try {
+            Category category = categoryRepository.findById(id).orElseThrow(
+                    () -> new EntityNotFoundException("Category not found with id : " + id));
+            return CategoryMapper.toCategoryWithProductsDTO(category);
         }
         catch (DataAccessException dae){
             throw new RuntimeException("Database error occurred while fetching category by Id",dae);

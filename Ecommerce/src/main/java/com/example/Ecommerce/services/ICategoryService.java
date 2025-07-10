@@ -1,5 +1,6 @@
 package com.example.Ecommerce.services;
 
+import com.example.Ecommerce.dto.CategoryWithProductsDTO;
 import com.example.Ecommerce.dto.controllerDTO.Response.CategoryResponseDTO;
 import com.example.Ecommerce.dto.controllerDTO.Resquest.CategoryRequestDTO;
 
@@ -9,4 +10,5 @@ public interface ICategoryService {
     List<CategoryResponseDTO>  getAllCategories() ;
     CategoryResponseDTO createCategory(CategoryRequestDTO request);
     CategoryResponseDTO getCategoryById(Long id);
+    CategoryWithProductsDTO getCategoryWithProducts(Long id);
 }
