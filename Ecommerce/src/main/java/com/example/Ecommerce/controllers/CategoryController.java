@@ -1,6 +1,7 @@
 package com.example.Ecommerce.controllers;
 
 
+import com.example.Ecommerce.dto.CategoryWithProductsDTO;
 import com.example.Ecommerce.dto.controllerDTO.Response.CategoryResponseDTO;
 import com.example.Ecommerce.dto.controllerDTO.Resquest.CategoryRequestDTO;
 import com.example.Ecommerce.services.ICategoryService;
@@ -27,5 +28,10 @@ public class CategoryController {
     public ResponseEntity<CategoryResponseDTO> createCategory(@RequestBody CategoryRequestDTO category){
         CategoryResponseDTO response = categoryService.createCategory(category);
         return ResponseEntity.ok(response);
+    }
+    @GetMapping("category/{id}/products")
+    public ResponseEntity<CategoryWithProductsDTO> getCategoryWithProducts(@PathVariable("id") Long id){
+        CategoryWithProductsDTO category = categoryService.getCategoryWithProducts(id);
+        return ResponseEntity.ok(category);
     }
 }

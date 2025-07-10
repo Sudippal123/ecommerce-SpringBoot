@@ -1,5 +1,6 @@
 package com.example.Ecommerce.mapper;
 
+import com.example.Ecommerce.dto.CategoryWithProductsDTO;
 import com.example.Ecommerce.dto.controllerDTO.Response.CategoryResponseDTO;
 import com.example.Ecommerce.dto.controllerDTO.Resquest.CategoryRequestDTO;
 import com.example.Ecommerce.entity.Category;
@@ -17,5 +18,11 @@ public class CategoryMapper {
     public static Category toCategoryEntity(CategoryResponseDTO requestDTO){
         return Category.builder().name(requestDTO.getName()).build();
     }
-
+    public static CategoryWithProductsDTO toCategoryWithProductsDTO(Category category){
+        return CategoryWithProductsDTO.builder()
+                .id(category.getId())
+                .name(category.getName())
+                .productDTOList(category.getProducts().stream().map(ProductMapper::ToProductDTO).toList())
+                .build();
+    }
 }
