@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -40,4 +41,10 @@ public class ProductController {
         ProductWithCategoryDTO response = productService.getProductWithCategory(id);
         return ResponseEntity.ok(response);
     }
+    @GetMapping
+    public ResponseEntity<List<ProductDTO>> getAllExpensiveProduct(@RequestParam("minPrice") double minPrice){
+        List<ProductDTO> productDTOList = productService.getAllExpensiveProducts(minPrice);
+        return ResponseEntity.ok(productDTOList);
+    }
+
 }

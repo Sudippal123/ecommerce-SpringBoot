@@ -107,4 +107,19 @@ public class ProductService implements IProductService {
             throw new RuntimeException("Unexpected error occurred while fetching the product with category.",ex);
         }
     }
+
+    @Override
+    public List<ProductDTO> getAllExpensiveProducts(double price) {
+        try {
+            List<Product> products = repository.getAllExpensiveProducts(price);
+            return products.stream().map(ProductMapper::ToProductDTO).toList();
+        }
+        catch (DataAccessException dae){
+            throw new RuntimeException("Database error occurred while fetching the expensive products.",dae);
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Unexpected error occurred while fetching the expensive products.",e);
+        }
+
+    }
 }
