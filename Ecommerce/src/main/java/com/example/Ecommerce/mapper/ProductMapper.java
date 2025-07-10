@@ -1,5 +1,6 @@
 package com.example.Ecommerce.mapper;
 
+import com.example.Ecommerce.dto.ProductWithCategoryDTO;
 import com.example.Ecommerce.dto.controllerDTO.Response.CategoryResponseDTO;
 import com.example.Ecommerce.dto.controllerDTO.Response.CreateProductResponse;
 import com.example.Ecommerce.dto.ProductDTO;
@@ -60,5 +61,20 @@ public class ProductMapper {
                         .build()
                 ).toList();
     }
-
+    public static ProductWithCategoryDTO toProductWithCategoryDTO(Product product){
+        return ProductWithCategoryDTO.builder()
+                .id(product.getId())
+                .title(product.getTitle())
+                .discount(product.getDiscount())
+                .brand(product.getBrand())
+                .popular(product.isPopular())
+                .category(CategoryResponseDTO.builder().id(product.getCategory().getId()).name(product.getCategory().getName()).build())
+                .color(product.getColor())
+                .model(product.getModel())
+                .image(product.getImage())
+                .popular(product.isPopular())
+                .price(product.getPrice())
+                .description(product.getDescription())
+                .build();
+    }
 }

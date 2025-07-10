@@ -35,7 +35,7 @@ public class ProductController {
         CreateProductResponse response = productService.createProduct(product);
         return ResponseEntity.ok(response);
     }
-    @GetMapping("/{id}/category")
+    @GetMapping(value="/{id}/category",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductWithCategoryDTO> getProductWithCategory(@PathVariable("id") Long id){
         ProductWithCategoryDTO response = productService.getProductWithCategory(id);
         return ResponseEntity.ok(response);
