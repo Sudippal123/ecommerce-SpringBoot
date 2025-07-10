@@ -15,4 +15,5 @@ public interface IProductService {
     ProductDTO getProductById(Long Id) ;
     CreateProductResponse createProduct(CreateProductRequest product) ;
     ProductWithCategoryDTO getProductWithCategory(Long id) ;
+    List<ProductDTO> getAllExpensiveProducts(double price) ;
 }
