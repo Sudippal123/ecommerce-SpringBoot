@@ -1,5 +1,6 @@
 package com.example.Ecommerce.services;
 
+import com.example.Ecommerce.dto.ProductWithCategoryDTO;
 import com.example.Ecommerce.dto.controllerDTO.Response.CategoryResponseDTO;
 import com.example.Ecommerce.dto.controllerDTO.Response.CreateProductResponse;
 import com.example.Ecommerce.dto.ProductDTO;
@@ -91,5 +92,10 @@ public class ProductService implements IProductService {
                     .message("An unexpected error occurred: " + ex.getMessage())
                     .build();
         }
+    }
+
+    @Override
+    public ProductWithCategoryDTO getProductWithCategory(Long id) {
+        return null;
     }
 }

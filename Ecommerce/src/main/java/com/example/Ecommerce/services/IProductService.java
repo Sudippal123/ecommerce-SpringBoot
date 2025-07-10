@@ -1,6 +1,7 @@
 package com.example.Ecommerce.services;
 
 import com.example.Ecommerce.dto.ProductDTO;
+import com.example.Ecommerce.dto.ProductWithCategoryDTO;
 import com.example.Ecommerce.dto.controllerDTO.Response.CreateProductResponse;
 
 import com.example.Ecommerce.dto.controllerDTO.Resquest.CreateProductRequest;
@@ -13,4 +14,5 @@ public interface IProductService {
     List<ProductDTO> getProductByCategory(String type) ;
     ProductDTO getProductById(Long Id) ;
     CreateProductResponse createProduct(CreateProductRequest product) ;
+    ProductWithCategoryDTO getProductWithCategory(Long id) ;
 }

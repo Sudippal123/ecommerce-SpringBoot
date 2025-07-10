@@ -1,5 +1,6 @@
 package com.example.Ecommerce.controllers;
 
+import com.example.Ecommerce.dto.ProductWithCategoryDTO;
 import com.example.Ecommerce.dto.controllerDTO.Response.CreateProductResponse;
 import com.example.Ecommerce.dto.ProductDTO;
 import com.example.Ecommerce.dto.controllerDTO.Resquest.CreateProductRequest;
@@ -32,6 +33,11 @@ public class ProductController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreateProductResponse> createProduct(@RequestBody CreateProductRequest product) {
         CreateProductResponse response = productService.createProduct(product);
+        return ResponseEntity.ok(response);
+    }
+    @GetMapping("/{id}/category")
+    public ResponseEntity<ProductWithCategoryDTO> getProductWithCategory(@PathVariable("id") Long id){
+        ProductWithCategoryDTO response = productService.getProductWithCategory(id);
         return ResponseEntity.ok(response);
     }
 }
