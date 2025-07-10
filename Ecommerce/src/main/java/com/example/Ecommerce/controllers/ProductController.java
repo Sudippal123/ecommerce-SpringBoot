@@ -41,10 +41,14 @@ public class ProductController {
         ProductWithCategoryDTO response = productService.getProductWithCategory(id);
         return ResponseEntity.ok(response);
     }
-    @GetMapping
+    @GetMapping(params = "minPrice")
     public ResponseEntity<List<ProductDTO>> getAllExpensiveProduct(@RequestParam("minPrice") double minPrice){
         List<ProductDTO> productDTOList = productService.getAllExpensiveProducts(minPrice);
         return ResponseEntity.ok(productDTOList);
     }
-
+    @GetMapping(params = "keyword")
+    public ResponseEntity<List<ProductDTO>> searchFullText(@RequestParam("keyword") String keyword){
+        List<ProductDTO> productDTOList = productService.searchFullText(keyword);
+        return ResponseEntity.ok(productDTOList);
+    }
 }

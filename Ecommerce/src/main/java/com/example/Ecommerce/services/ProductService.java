@@ -122,4 +122,18 @@ public class ProductService implements IProductService {
         }
 
     }
+
+    @Override
+    public List<ProductDTO> searchFullText(String keyword) {
+        try {
+            List<Product> products = repository.searchFullText(keyword);
+            return products.stream().map(ProductMapper::ToProductDTO).toList();
+        }
+        catch (DataAccessException dae){
+            throw new RuntimeException("Database error occurred while fetching the matched products.",dae);
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Unexpected error occurred while fetching the matched products.",e);
+        }
+    }
 }
