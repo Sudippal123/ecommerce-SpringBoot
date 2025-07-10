@@ -96,6 +96,15 @@ public class ProductService implements IProductService {
 
     @Override
     public ProductWithCategoryDTO getProductWithCategory(Long id) {
-        return null;
+        try {
+            Product product = repository.findById(id).orElseThrow(()->new EntityNotFoundException("Category not found with id : "+id));
+            return ProductMapper.toProductWithCategoryDTO(product);
+        }
+        catch (DataAccessException dae) {
+            throw new RuntimeException("Database error occurred while fetching the product with category.",dae);
+        }
+        catch (Exception ex) {
+            throw new RuntimeException("Unexpected error occurred while fetching the product with category.",ex);
+        }
     }
 }

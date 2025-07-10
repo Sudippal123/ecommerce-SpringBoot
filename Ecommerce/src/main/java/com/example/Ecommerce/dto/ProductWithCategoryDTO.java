@@ -1,11 +1,12 @@
 package com.example.Ecommerce.dto;
 
 import com.example.Ecommerce.dto.controllerDTO.Response.CategoryResponseDTO;
-import lombok.Builder;
+import lombok.*;
 
 @Builder
+@Getter
 public class ProductWithCategoryDTO {
-    private Long id ;
+    private long id ;
     private String title ;
     private String image ;
     private double price ;
