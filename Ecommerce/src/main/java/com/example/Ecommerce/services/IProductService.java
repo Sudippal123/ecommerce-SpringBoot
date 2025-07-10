@@ -16,4 +16,5 @@ public interface IProductService {
     CreateProductResponse createProduct(CreateProductRequest product) ;
     ProductWithCategoryDTO getProductWithCategory(Long id) ;
     List<ProductDTO> getAllExpensiveProducts(double price) ;
+    List<ProductDTO> searchFullText(String keyword);
 }
