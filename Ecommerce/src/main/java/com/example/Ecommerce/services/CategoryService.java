@@ -4,12 +4,11 @@ import com.example.Ecommerce.dto.CategoryWithProductsDTO;
 import com.example.Ecommerce.dto.controllerDTO.Response.CategoryResponseDTO;
 import com.example.Ecommerce.dto.controllerDTO.Resquest.CategoryRequestDTO;
 import com.example.Ecommerce.entity.Category;
+import com.example.Ecommerce.exception.CategoryNotFoundException;
+import com.example.Ecommerce.exception.ServiceException;
 import com.example.Ecommerce.mapper.CategoryMapper;
-import com.example.Ecommerce.mapper.ProductMapper;
 import com.example.Ecommerce.repository.CategoryRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataAccessException;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,14 +28,9 @@ public class CategoryService implements ICategoryService{
             return categories.stream().map(CategoryMapper::toCategoryDTO).toList();
         }
         catch (DataAccessException dae){
-            // Handle database issues (e.g., query failure, connection issue)
-            throw new RuntimeException("Database error occurred while fetching all categories." , dae);
+            throw new ServiceException("Database error occurred while fetching all categories." , dae);
+        }
 
-        }
-        catch (Exception ex){
-            // Catch-all for any other runtime exceptions
-            throw new RuntimeException("Unexpected error while retrieving all categories." , ex);
-        }
     }
 
     @Override
@@ -46,40 +40,22 @@ public class CategoryService implements ICategoryService{
             return CategoryMapper.toCategoryDTO(category);
         }
         catch (DataAccessException dae){
-            throw new RuntimeException("Database error occurred while creating category record.",dae);
-        }
-        catch (Exception ex){
-            throw new RuntimeException("Unexpected error occur while creating category record.",ex);
+            throw new ServiceException("Database error occurred while creating category record.",dae);
         }
     }
 
     @Override
     public CategoryResponseDTO getCategoryById(Long id) {
-        try {
-            Category category = categoryRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Category not found with id : "+id));
-            return CategoryMapper.toCategoryDTO(category);
-        }
-        catch (DataAccessException dae){
-            throw new RuntimeException("Database error occurred while fetching category by Id",dae);
-        }
-        catch (RuntimeException e) {
-            throw new RuntimeException("Unexpected error occur while fetching for category.",e);
-        }
+        Category category = categoryRepository.findById(id).orElseThrow(
+                ()-> new CategoryNotFoundException("Category not found with id : "+id));
+        return CategoryMapper.toCategoryDTO(category);
     }
 
     @Override
     public CategoryWithProductsDTO getCategoryWithProducts(Long id) {
-        try {
-            Category category = categoryRepository.findById(id).orElseThrow(
-                    () -> new EntityNotFoundException("Category not found with id : " + id));
-            return CategoryMapper.toCategoryWithProductsDTO(category);
-        }
-        catch (DataAccessException dae){
-            throw new RuntimeException("Database error occurred while fetching category by Id",dae);
-        }
-        catch (RuntimeException e) {
-            throw new RuntimeException("Unexpected error occur while fetching for category.",e);
-        }
+        Category category = categoryRepository.findById(id).orElseThrow(
+                    () -> new CategoryNotFoundException("Category not found with id : " + id));
+        return CategoryMapper.toCategoryWithProductsDTO(category);
     }
 
 }
