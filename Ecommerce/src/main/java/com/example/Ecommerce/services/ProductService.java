@@ -7,6 +7,9 @@ import com.example.Ecommerce.dto.ProductDTO;
 import com.example.Ecommerce.dto.controllerDTO.Resquest.CreateProductRequest;
 import com.example.Ecommerce.entity.Category;
 import com.example.Ecommerce.entity.Product;
+import com.example.Ecommerce.exception.CategoryNotFoundException;
+import com.example.Ecommerce.exception.ProductNotFoundException;
+import com.example.Ecommerce.exception.ServiceException;
 import com.example.Ecommerce.mapper.CategoryMapper;
 import com.example.Ecommerce.mapper.ProductMapper;
 import com.example.Ecommerce.repository.CategoryRepository;
@@ -34,78 +37,36 @@ public class ProductService implements IProductService {
             return products.stream().map(ProductMapper::ToProductDTO).toList();
         }
         catch (DataAccessException dae){
-            throw new RuntimeException("Database error occurred while fetching the products by category name.",dae);
-        }
-        catch (Exception e){
-            throw new RuntimeException("Unexpected error while fetching the products by category name.",e);
+            throw new ServiceException("Database error occurred while fetching the products by category name.",dae);
         }
     }
 
     @Override
     public ProductDTO getProductById(Long id) {
-        try {
-            Product product = repository.findById(id)
-                    .orElseThrow(
-                            () -> new EntityNotFoundException("Product not found with id: " + id)
-                    );
-            return ProductMapper.ToProductDTO(product);
-        }
-        catch (DataAccessException dae) {
-            // Handle database issues (e.g., query failure, connection issue)
-            throw new RuntimeException("Database error occurred while fetching product with id: " + id, dae);
-
-        } catch (Exception ex) {
-            // Catch-all for any other runtime exceptions
-            throw new RuntimeException("Unexpected error while retrieving product with id: " + id, ex);
-        }
+        Product product = repository.findById(id)
+                .orElseThrow(
+                        () -> new ProductNotFoundException("Product not found with id: " + id)
+                );
+        return ProductMapper.ToProductDTO(product);
     }
 
     @Override
     public CreateProductResponse createProduct(CreateProductRequest request) {
-        try {
-            //Get the category if it exists
-            Category category = categoryRepo.findById(request.getCategory_id()).orElseThrow(()-> new EntityNotFoundException("Category not found with id : "+request.getCategory_id()));
-
-            // converts the request DTO structure to Product Entity Structure
-            Product productEntity = ProductMapper.ToEntity(request,category);
-            // create the product record
-            Product savedProduct = repository.save(productEntity);
-            // converts the Product Entity structure to response DTO Structure
-            ProductDTO productDTO = ProductMapper.ToProductDTO(savedProduct);
-            return CreateProductResponse.builder()
-                    .product(productDTO)
-                    .status("Success")
-                    .message("I am able to create a data for you")
-                    .build();
-        }
-        catch (DataAccessException dae) {
-            // Handle database-related errors
-            return CreateProductResponse.builder()
-                    .status("Failure")
-                    .message("Database error occurred while creating product: " + dae.getMessage())
-                    .build();
-
-        } catch (Exception ex) {
-            // Handle generic errors
-            return CreateProductResponse.builder()
-                    .status("Failure")
-                    .message("An unexpected error occurred: " + ex.getMessage())
-                    .build();
-        }
+        Category category = categoryRepo.findById(request.getCategory_id()).orElseThrow(()-> new CategoryNotFoundException("Category not found with id : "+request.getCategory_id()));
+        Product productEntity = ProductMapper.ToEntity(request,category);
+        Product savedProduct = repository.save(productEntity);
+        ProductDTO productDTO = ProductMapper.ToProductDTO(savedProduct);
+        return CreateProductResponse.builder()
+                .product(productDTO)
+                .status("Success")
+                .message("I am able to create a data for you")
+                .build();
     }
 
     @Override
     public ProductWithCategoryDTO getProductWithCategory(Long id) {
-        try {
-            Product product = repository.findById(id).orElseThrow(()->new EntityNotFoundException("Category not found with id : "+id));
-            return ProductMapper.toProductWithCategoryDTO(product);
-        }
-        catch (DataAccessException dae) {
-            throw new RuntimeException("Database error occurred while fetching the product with category.",dae);
-        }
-        catch (Exception ex) {
-            throw new RuntimeException("Unexpected error occurred while fetching the product with category.",ex);
-        }
+        Product product = repository.findById(id).orElseThrow(()->new CategoryNotFoundException("Category not found with id : "+id));
+        return ProductMapper.toProductWithCategoryDTO(product);
     }
 
     @Override
@@ -115,12 +76,8 @@ public class ProductService implements IProductService {
             return products.stream().map(ProductMapper::ToProductDTO).toList();
         }
         catch (DataAccessException dae){
-            throw new RuntimeException("Database error occurred while fetching the expensive products.",dae);
+            throw new ServiceException("Database error occurred while fetching the expensive products.",dae);
         }
-        catch (Exception e) {
-            throw new RuntimeException("Unexpected error occurred while fetching the expensive products.",e);
-        }
-
     }
 
     @Override
@@ -130,10 +87,7 @@ public class ProductService implements IProductService {
             return products.stream().map(ProductMapper::ToProductDTO).toList();
         }
         catch (DataAccessException dae){
-            throw new RuntimeException("Database error occurred while fetching the matched products.",dae);
-        }
-        catch (Exception e) {
-            throw new RuntimeException("Unexpected error occurred while fetching the matched products.",e);
+            throw new ServiceException("Database error occurred while fetching the matched products.",dae);
         }
     }
 }
